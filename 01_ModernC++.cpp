@@ -6,7 +6,7 @@
 
 using namespace std;
 // two overloaded functions
-// one taking anint by value
+// one taking int by value
 void func(int n)
 {
     cout << "by value: " << n << endl;

@@ -228,9 +228,6 @@ int main(){
     • The result of a program execution depends on the order in which threads are scheduled
     */
 
-    //**** ****//
-
-    //**** ****//
 
     return 0;
 }
