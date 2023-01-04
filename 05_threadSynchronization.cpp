@@ -79,8 +79,6 @@ can obtain a shared_future directly from the promise
 
 
 
-****  ****
-****  ****
 
 
 
