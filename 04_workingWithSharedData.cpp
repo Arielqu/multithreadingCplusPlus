@@ -804,7 +804,8 @@ What is meant by thread priority? Is it supported in C++?
 data which is needed for this call
 
 • What is meant by priority inversion?
-• Priority inversion occurs when a high priority thread has to wait for a low
+• Priority inversion occurs when a 
+high priority thread has to wait for a low
 priority thread
 • The low priority thread will be interrupted more often than the high priority
 thread
