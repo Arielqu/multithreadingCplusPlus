@@ -24,9 +24,61 @@ fetching thread(write): lock_guard. only needs to mutex to protect the critical 
 exercise 1: main function starts a reader thread and a writer thread. 
 
 ****  condition variablesw with predicate ****
+lost wakeup: if the writing thread notifies the condition variable before the reading thread
+calls wait(), the reading thread is blocked forever
+spurious wakeup: the waiting thrad will be woken up even though the writing thread has not notified condition variable 
+wait() with predicate as the second arugment. 
+a shared bool variab le; 
+cv.wait(lk, []{return flag;});
+when wait is called, calls the predicate. if the return true: already sent a notificaiton lost wakeup 
+if return false: normal release the lock and wait for notisfication 
+always use a predicate with condition variable 
+
+condition variables are useful when multiple threads are waiting for the same event
+
+
 ****  futures ****
+thread doesnot provide a way to return a value from a thrad 
+future and promise to transfer data between threads; 
+no explicit locking is needed 
+
+future and promises use a producer-consumer model 
+producer thread generates data; promise sets value 
+cosumer wait for data; future waits until the value is avaiable
+consumer thread gets the value: future object returns the value from the shared state 
+
+future: a value that has not yet been computed; the most important data structure in c++ concurrency 
+future object is not usually created directly: obtained from std::promise
+
+<future>. 
+get() blocks unitl operation is completed 
+wait() blocks until operation is complete 
+promise<int> p; 
+auto f{p.get_future()};
+this setup the shared state; when the consumer is ready to receive the result, calls the future get() 
 ****  promises ****
+promise is template class
+get_future()
+set_value()
+set_exception()
+exception handling: producer an store exceptions in the shared state using the promise set_exception() 
+try block and catch block 
+
 ****  promises with multiple waiting threads ****
+single producer and multiple consumers 
+shared_future allow mutiple consumers to wait for a result from a producer thread 
+not normally create a shred_future directly
+move an exisiting object 
+    promise<int>p; 
+    future<int> f=p.get_future();
+    shared_future<int> sf1{std::move(f)};
+can call shared() on the future to get a shared_future from it 
+    shared_future<int> sf1{f.share()};
+can obtain a shared_future directly from the promise
+    shared_future<int> sf1{p.get_future()}; **
+
+
+
 ****  ****
 ****  ****
 
