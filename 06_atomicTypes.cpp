@@ -128,7 +128,7 @@ void taskSpin(int n){
 //exercise 5: atomic lazy initialization 
 class someType{
 public:
-    void doSomething(){};
+    void doSomething(){cout << "atomic lazy initialization.\n";};
 };
 
 someType* ptr{nullptr};
@@ -155,8 +155,15 @@ int main(){
     // cout <<"the conunter is : " << counter <<endl;
 
     //exercise 5: lazy initialization
-    thread t1{atomicLazy};
-    t1.join();
+    // thread t1{atomicLazy};
+    // t1.join();
+    for (int i=0; i<10; ++i){
+        threads.push_back(thread{atomicLazy});
+        this_thread::sleep_for(100ms);
+    }
+    for (auto& thread : threads)
+        thread.join();
+
 
     return 0;
 }
