@@ -96,6 +96,9 @@ double-checked locking
     some_type* sp = ptr;
     sp->do_it();
 
+lazy initialization 
+ In this exercise, make the lazy initialization thread-safe by using an atomic type
+
 */
 //exercise 1: concurrency task 
 // int counter{0};
@@ -121,6 +124,20 @@ void taskSpin(int n){
     cout << "I am a task with argument " << n <<endl;
     af.clear();
 }
+
+//exercise 5: atomic lazy initialization 
+class someType{
+public:
+    void doSomething(){};
+};
+
+someType* ptr{nullptr};
+void atomicLazy(){
+    if (!ptr){
+        ptr = new someType;
+    }
+    ptr->doSomething();
+}
 int main(){
     vector<thread> threads;
     // for (int i=0; i<10; ++i){
@@ -129,12 +146,17 @@ int main(){
     // for (auto& thread : threads)
     //     thread.join();
 
-    //exercise 4: spin lock 
-    for (int i=0; i<10; i++){
-        threads.push_back(thread{taskSpin,i});
-    }
-    for (auto& thread : threads)
-        thread.join();
-    cout <<"the conunter is : " << counter <<endl;
+    // //exercise 4: spin lock 
+    // for (int i=0; i<10; i++){
+    //     threads.push_back(thread{taskSpin,i});
+    // }
+    // for (auto& thread : threads)
+    //     thread.join();
+    // cout <<"the conunter is : " << counter <<endl;
+
+    //exercise 5: lazy initialization
+    thread t1{atomicLazy};
+    t1.join();
+
     return 0;
 }
